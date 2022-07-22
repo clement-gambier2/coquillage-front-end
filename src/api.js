@@ -7,7 +7,6 @@ export default class API{
     // to get all the posts from the server
     static async getAllUser(){
         const res = await axios.get(url_user);
-        console.log(res.data);
         return res.data;
     }
     
@@ -17,20 +16,20 @@ export default class API{
         return res.data;
     }
     // to insert post into database
-    static async addPost(post){
-        const res = await axios.post(url_user, post);
+    static async addUser(user){
+        const res = await axios.post(url_user, user);
         return res.data;
     }
 
     // to update post by id
-    static async updatePost(id, post){
-        const res = await axios.patch(`${url_user}/${id}`, post);
+    static async updateUser(id, user){
+        const res = await axios.patch(`${url_user}/${id}`, user);
         return res.data;
     }
 
 
     // to get single post by id 
-    static async deletePost(id){
+    static async deleteUser(id){
         const res = await axios.delete(`${url_user}/${id}`);
         return res.data;
     }
@@ -39,32 +38,32 @@ export default class API{
     //Availabilities part
 
     // to get all the posts from the server
-    static async getAllPost(){
+    static async getAllAvailable(){
         const res = await axios.get(url_available);
         console.log(res.data);
         return res.data;
     }
     
     // to get single post by id 
-    static async getPostByID(id){
+    static async getAvailableByID(id){
         const res = await axios.get(`${url_available}/${id}`);
         return res.data;
     }
     // to insert post into database
-    static async addPost(post){
-        const res = await axios.post(url_available, post);
+    static async addAvailable(available){
+        const res = await axios.post(url_available, available);
         return res.data;
     }
 
     // to update post by id
-    static async updatePost(id, post){
-        const res = await axios.patch(`${url_available}/${id}`, post);
+    static async updateAvailable(id, available){
+        const res = await axios.patch(`${url_available}/${id}`, available);
         return res.data;
     }
 
 
     // to get single post by id 
-    static async deletePost(id){
+    static async deleteAvailable(id){
         const res = await axios.delete(`${url_available}/${id}`);
         return res.data;
     }
