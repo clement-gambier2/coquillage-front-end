@@ -40,7 +40,6 @@ export default class API{
     // to get all the posts from the server
     static async getAllAvailable(){
         const res = await axios.get(url_available);
-        console.log(res.data);
         return res.data;
     }
     
