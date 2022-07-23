@@ -1,16 +1,15 @@
 <template>
-  <v-container>
+  <v-main>
     <h3>Coquillage</h3>
-    <HomeView/>
-  </v-container>
+    <router-view>
+
+    </router-view>
+  </v-main>
 </template>
 
 <script>
-import HomeView from "./views/HomeView.vue";
-  
-
   export default {
-    name: "App",
-    components: { HomeView }
+    name: "App"
+    
 };
 </script>
