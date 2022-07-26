@@ -48,9 +48,19 @@ export default class API{
         const res = await axios.get(`${url_available}/${id}`);
         return res.data;
     }
+    //to get the availibillity of a user using his people id
+    static async getAvailableByPeopleId(id){
+        const res = await axios.get(`${url_available}/bypeople/${id}`);
+        return res.data;
+    }
+
     // to insert post into database
     static async addAvailable(available){
-        const res = await axios.post(url_available, available);
+        console.log(available);
+        const res = await axios.post(url_available,{
+            peopleId: available.peopleId,
+            day: available.day,
+        });
         return res.data;
     }
 
