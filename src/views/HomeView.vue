@@ -32,11 +32,49 @@
                 users: [],
                 availables: [],
                 availablesPreview: [],
+                oldAvailables: [],
+                today: '',
             };
         },
         async created() {
             this.users = await API.getAllUser();
-            this.availables = await API.getAllAvailable();
+            let allAvailable = await API.getAllAvailable();
+            this.today = new Date().toLocaleString().slice(0,10);
+            console.log(allAvailable.length);
+        
+            
+            allAvailable.forEach(element => {
+                console.log(element.day);
+                if(element.day.slice(0,4) <= this.today.slice(6,10)){
+                    
+                    if(element.day.slice(5,7) >= this.today.slice(3,5)){
+                        if(element.day.slice(8,10) >= this.today.slice(0,2)){
+                            this.availables.push(element);
+                        }
+                        else{
+                            this.oldAvailables.push(element);
+                        }
+                    }
+                    else{
+                        this.oldAvailables.push(element);
+                    }
+                }
+                else{
+                    this.oldAvailables.push(element);
+                }
+                
+                
+
+
+
+                // if(element.day < this.today){
+                    
+                //     
+                // }
+                // else{
+                
+                // }
+            });
             this.availablesPreview = this.availables.slice(0,3);
         },
         components: { DayNameComponent, ComingComponent }
