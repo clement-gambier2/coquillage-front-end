@@ -5,6 +5,9 @@ import vuetify from './plugins/vuetify'
 
 Vue.config.productionTip = false
 
+//global variable 
+Vue.prototype.$name = 'Dylan'
+
 new Vue({
   router,
   vuetify,
