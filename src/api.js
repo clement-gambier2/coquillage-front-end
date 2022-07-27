@@ -54,6 +54,12 @@ export default class API{
         return res.data;
     }
 
+    //to get the people using his date
+    static async getPeopleByDay(date){
+        const res = await axios.get(`${url_available}/byday/${date}`);
+        return res.data;
+    }
+
     // to insert post into database
     static async addAvailable(available){
         console.log(available);
