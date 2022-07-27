@@ -1,7 +1,7 @@
 <template>
     <v-main>
-        <!-- If we use the global variable when there will be the account system. -->
-        <!-- <p>{{this.$name}}</p> -->
+        
+        <v-btn :to="{ name: 'names'}"><v-icon>mdi-arrow-left</v-icon></v-btn>
         <v-container>
             <h3>{{name.name}}</h3>
             <h4>Mes disponibilités</h4>    
@@ -57,7 +57,7 @@
                 this.available.day = this.available.day + 'T00:00:00.000Z';
                 this.available.peopleId = await this.$route.params.user;
                 const response = await API.addAvailable(this.available);
-                this.$router.push({name: 'home', params:{message: response.message}});
+                this.$router.push({name: 'names', params:{message: response.message}});
             }
         },
         components: { DayComponent }

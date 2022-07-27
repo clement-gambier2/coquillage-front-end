@@ -1,6 +1,7 @@
 <template>
     <v-main>
-        <h2>More</h2>
+        <NavComponent />
+        <v-btn :to="{ name: 'home'}"><v-icon>mdi-arrow-left</v-icon></v-btn>
         <DayNameComponent v-for="available in finalAvailable" :key="available._id" :available="available" />
         
     </v-main>
@@ -11,6 +12,7 @@
 <script>
     import API from '../api';
     import DayNameComponent from '../components/DayNameComponent.vue';
+    import NavComponent from '../components/NavComponent.vue';
     
     export default {
         name: "HomeView",
@@ -72,7 +74,7 @@
 
                         
         },
-        components: { DayNameComponent }
+        components: { DayNameComponent, NavComponent }
     };
   
 </script>

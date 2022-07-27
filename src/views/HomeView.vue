@@ -1,19 +1,19 @@
 <template>
     <v-container>
-       
+        <NavComponent />
         <v-container>
-        <h4>Available</h4>
-        <DayNameComponent v-for="available in availablesPreview" :key="available._id" :available="available" />
+            <h4>Disponibilités</h4>
+            <DayNameComponent v-for="available in availablesPreview" :key="available._id" :available="available" />
         </v-container>
     
-        <v-container>
-        <v-btn color="#F2F2F2" elevation="2" :to="{ name: 'more', params: {availables: finalAvailable }}" > Voir plus</v-btn>
-        <v-btn color="" elevation="2" :to="{ name: 'names'}">Mes disponibilités</v-btn>
+        <v-container id="buttons">
+            <v-btn color="#F2F2F2" elevation="2" :to="{ name: 'more', params: {availables: finalAvailable }}" > Voir plus</v-btn>
+            <v-btn color="" elevation="2" :to="{ name: 'names'}">Mes disponibilités</v-btn>
         </v-container>
         
         
         
-        <ComingComponent/>
+        <!-- <ComingComponent/> -->
         
     </v-container>
 </template>
@@ -23,6 +23,7 @@
     import API from '../api';
     import DayNameComponent from '../components/DayNameComponent.vue';
     import ComingComponent from '../components/ComingComponent.vue';
+    import NavComponent from '../components/NavComponent.vue';
 
     
     export default {
@@ -90,7 +91,14 @@
 
                         
         },
-        components: { DayNameComponent, ComingComponent }
+        components: { DayNameComponent, ComingComponent, NavComponent }
     };
   
 </script>
+
+
+<style>
+    #buttons{
+        margin-top: 20px;
+    }
+</style>
