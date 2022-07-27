@@ -29,53 +29,66 @@
         name: "HomeView",
         data() {
             return {
-                users: [],
                 availables: [],
                 availablesPreview: [],
-                oldAvailables: [],
-                today: '',
+                uniqueDays: [],
+                finalAvailable: [],
             };
         },
         async created() {
-            this.users = await API.getAllUser();
             let allAvailable = await API.getAllAvailable();
-            this.today = new Date().toLocaleString().slice(0,10);
-            console.log(allAvailable.length);
-        
-            
-            allAvailable.forEach(element => {
-                console.log(element.day);
-                if(element.day.slice(0,4) <= this.today.slice(6,10)){
-                    
-                    if(element.day.slice(5,7) >= this.today.slice(3,5)){
-                        if(element.day.slice(8,10) >= this.today.slice(0,2)){
-                            this.availables.push(element);
-                        }
-                        else{
-                            this.oldAvailables.push(element);
-                        }
-                    }
-                    else{
-                        this.oldAvailables.push(element);
-                    }
-                }
-                else{
-                    this.oldAvailables.push(element);
-                }
-                
-                
+            let today = new Date().toLocaleString().slice(0,10);
 
-
-
-                // if(element.day < this.today){
-                    
-                //     
-                // }
-                // else{
-                
-                // }
+            //Get all days
+            let days = [];
+            allAvailable.forEach((element) => {
+                days.push(element.day);
             });
-            this.availablesPreview = this.availables.slice(0,3);
+
+            //delete duplicate days
+            days.forEach((element) => {
+                if (!this.uniqueDays.includes(element)) {
+                    this.uniqueDays.push(element);
+                }
+            });
+
+            //Remove all the availables that are older than today
+            this.uniqueDays.forEach(element => {
+                if(element.slice(0,4) <= today.slice(6,10)){
+                    if(element.slice(5,7) > today.slice(3,5)){ 
+                        this.availables.push(element);
+                    }
+                    else if(element.slice(5,7) == today.slice(3,5)){
+                        if(element.slice(8,10) >= today.slice(0,2)){
+                            this.availables.push(element);
+                        }   
+                       
+                    }
+                }
+            }); 
+
+            //If two people are available on the same day            
+            await this.availables.forEach((element) => {
+                API.getPeopleByDay(element)
+                .then((res) => {
+                    let idTemp = [];
+                    res.forEach((element) => {
+                        idTemp.push(element.peopleId);
+                    }); 
+                let people = {
+                    day: res[0].day,
+                    peopleId: idTemp,
+                }
+                
+                if(this.finalAvailable.length < 3){
+                    this.availablesPreview.push(people);
+                }
+                this.finalAvailable.push(people);
+                });
+            });
+
+
+                        
         },
         components: { DayNameComponent, ComingComponent }
     };
