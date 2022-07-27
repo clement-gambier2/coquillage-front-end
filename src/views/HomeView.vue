@@ -7,7 +7,7 @@
         </v-container>
     
         <v-container>
-        <v-btn color="#F2F2F2" elevation="2" :to="{ name: 'more'}" > Voir plus</v-btn>
+        <v-btn color="#F2F2F2" elevation="2" :to="{ name: 'more', params: {availables: finalAvailable }}" > Voir plus</v-btn>
         <v-btn color="" elevation="2" :to="{ name: 'names'}">Mes disponibilités</v-btn>
         </v-container>
         
