@@ -2,9 +2,9 @@
     
     <v-container>
         
-        <v-card>
+        <v-card id="card">
             <v-card-title>{{available.day.slice(8,10)}} / {{available.day.slice(5,7)}}</v-card-title>
-            <p>{{user.name}}</p>
+            <p v-for="username in user">{{username}}</p>
         </v-card>
         
         
@@ -22,15 +22,29 @@
         props: ['available'],
         data() {
             return {
-                user: "..."
+                user: []
                 
             };
         },
         async created() {
-            this.user = await API.getUserByID(this.available.peopleId);
-            
+            // console.log(this.available);
+            //this.user = await API.getUserByID(this.available.peopleId);
+            await this.available.peopleId.forEach((element) => {
+                API.getUserByID(element)
+                .then((res) => {
+                    
+                    this.user.push(res.name);
+                })
+            });
         },
     }
     
 
 </script>
+
+
+<style>
+    #card{
+        
+    }
+</style>
