@@ -7,8 +7,8 @@
         </v-container>
     
         <v-container id="buttons">
-            <v-btn color="#F2F2F2" elevation="2" :to="{ name: 'more', params: {availables: finalAvailable }}" > Voir plus</v-btn>
-            <v-btn color="" elevation="2" :to="{ name: 'names'}">Mes disponibilités</v-btn>
+            <v-btn id="more" elevation="2" :to="{ name: 'more', params: {availables: finalAvailable }}" > Voir plus</v-btn>
+            <v-btn id="dispos" elevation="2" :to="{ name: 'names'}">Mes disponibilités</v-btn>
         </v-container>
         
         
@@ -45,6 +45,7 @@
             allAvailable.forEach((element) => {
                 days.push(element.day);
             });
+            
 
             //delete duplicate days
             days.forEach((element) => {
@@ -52,6 +53,9 @@
                     this.uniqueDays.push(element);
                 }
             });
+
+            
+
 
             //Remove all the availables that are older than today
             this.uniqueDays.forEach(element => {
@@ -68,26 +72,63 @@
                 }
             }); 
 
+            
+            let corectedDays = [];
+            this.availables.forEach(element => {
+                let a = element.slice(0,8);
+                let b = element.slice(13,23);
+                console.log(element.slice(0,10));
+                let tempDay;
+                if(element.slice(0,10) == "2022-08-31"){
+                    corectedDays.push("2022-09-01T00:00:00.000");
+                }
+
+                //TO DO : Find a solution to fix this problem !!!
+                else if(element.slice(0,10) == "2022-09-30"){
+                    corectedDays.push("2022-10-01T00:00:00.000");
+                }
+                else if(element.slice(0,10) == "2022-10-31"){
+                    corectedDays.push("2022-11-01T00:00:00.000");
+                }
+                else if(element.slice(0,10) == "2022-11-30"){
+                    corectedDays.push("2022-12-01T00:00:00.000");
+                }
+                else{
+                    tempDay = parseInt(element.slice(8,10));
+                    corectedDays.push(a +tempDay+ "T00"+ b);
+                }
+                
+            });
+
+            
+
+
+            
+            console.log(corectedDays);   
             //If two people are available on the same day            
-            await this.availables.forEach((element) => {
+            await corectedDays.forEach((element) => {
                 API.getPeopleByDay(element)
                 .then((res) => {
                     let idTemp = [];
-                    res.forEach((element) => {
+                    console.log(res);
+                    res.forEach((element) => {    
                         idTemp.push(element.peopleId);
-                    }); 
-                let people = {
-                    day: res[0].day,
-                    peopleId: idTemp,
-                }
+                    });
+                    //Get the right date, don't know why but planetscale return a date one day earlier than the one we want
+                    let day = res[0].day;
+                    let date = new Date(day);
+                    let dayTemp = date.toLocaleString().slice(0,10);
+                    let people = {
+                        day: dayTemp,
+                        peopleId: idTemp,
+                    }
                 
-                if(this.finalAvailable.length < 3){
-                    this.availablesPreview.push(people);
-                }
-                this.finalAvailable.push(people);
+                    if(this.finalAvailable.length < 3){
+                        this.availablesPreview.push(people);
+                    }
+                    this.finalAvailable.push(people);
                 });
             });
-
 
                         
         },
@@ -100,5 +141,20 @@
 <style>
     #buttons{
         margin-top: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    #more{
+        margin-top: 20px;
+        width: 50%;
+        background-color: #CBF3F0;
+    }
+
+    #dispos{
+        margin-top: 20px;
+        width: 50%;
+        background-color: #2EC4B6;
     }
 </style>

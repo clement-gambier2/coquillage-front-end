@@ -21,6 +21,9 @@
     export default{
         props: ['available'],
         methods:{
+            async created() {
+                console.log(this.available);
+            },
             async deleteAvailable(id){
                 const response = await API.deleteAvailable(id);
                 this.$router.push({name: 'home', params:{message: response.message}});
